@@ -7,6 +7,7 @@ import { formatBid } from "@/lib/format";
 import { Tabs } from "./ui/tabs";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
+import { CategoryDropdown } from "./category-dropdown";
 import {
   ProductCard,
   ProductCardSkeleton,
@@ -48,19 +49,11 @@ export function Leaderboard({
             { value: "new", label: "New" },
           ]}
         />
-        <select
+        <CategoryDropdown
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="h-10 rounded-full border border-border bg-card px-4 text-xs sm:text-sm font-semibold text-foreground shadow-xs transition-colors hover:border-foreground/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 cursor-pointer"
-          aria-label="Filter by category"
-        >
-          <option value="All">All categories</option>
-          {(cats ?? []).map((c) => (
-            <option key={c.name} value={c.name}>
-              {c.name} ({c.count})
-            </option>
-          ))}
-        </select>
+          onChange={setCategory}
+          categories={cats}
+        />
       </div>
 
       {products === undefined ? (

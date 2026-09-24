@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Gavel, MousePointerClick, Zap } from "lucide-react";
+import { ArrowRight, Gavel, MousePointerClick, Trophy, Zap } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { StatsBar } from "@/components/stats-bar";
 import { Leaderboard } from "@/components/leaderboard";
@@ -50,8 +50,10 @@ export default function Home() {
       {/* content-band: leaderboard */}
       <section id="leaderboard" className="scroll-mt-24">
         <div className="mx-auto max-w-6xl space-y-4 px-4 py-12 lg:py-20">
-          <div className="flex items-center gap-2">
-            <Gavel className="size-5" />
+          <div className="flex items-center gap-3">
+            <span className="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs">
+              <Trophy className="size-4.5" />
+            </span>
             <h2 className="font-display text-display-md font-black tracking-tight">
               Leaderboard
             </h2>
