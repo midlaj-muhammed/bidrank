@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useMutation, useQuery } from "convex/react";
 import { useConvexAuth } from "@convex-dev/auth/react";
 import { toast } from "sonner";
-import { Loader2, Sprout } from "lucide-react";
+import { Loader2, Sparkles, Trash2 } from "lucide-react";
 import { api } from "../../../convex/_generated/api";
 import { formatBid } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,9 @@ export default function AdminPage() {
   const products = useQuery(api.admin.allProducts, admin ? {} : "skip");
   const setStatus = useMutation(api.admin.setStatus);
   const seed = useMutation(api.seed.seed);
+  const clearAll = useMutation(api.seed.clearAll);
   const [seeding, setSeeding] = useState(false);
+  const [clearing, setClearing] = useState(false);
 
   if (isLoading) return <p className="pt-12 text-center text-muted-foreground">Loading…</p>;
   if (!isAuthenticated || admin === false) {
@@ -27,29 +29,55 @@ export default function AdminPage() {
   }
   if (!data || !products) return <p className="pt-12 text-center text-muted-foreground">Loading…</p>;
 
+  async function handleClearAll() {
+    if (!confirm("Are you sure you want to delete ALL database products, bids, payments, and events? This action cannot be undone.")) return;
+    setClearing(true);
+    try {
+      const res = await clearAll({});
+      toast.success(`Cleared database (${res.deletedProducts} products removed).`);
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setClearing(false);
+    }
+  }
+
+  async function handleSeed() {
+    setSeeding(true);
+    try {
+      const r = await seed({});
+      toast.success(`Seeded ${r.created} popular SaaS brands.`);
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setSeeding(false);
+    }
+  }
+
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-12 lg:py-16">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-display-md font-black tracking-tight">Admin</h1>
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={seeding}
-          onClick={async () => {
-            setSeeding(true);
-            try {
-              const r = await seed({});
-              toast.success(`Seeded ${r.created} products.`);
-            } catch (e) {
-              toast.error((e as Error).message);
-            } finally {
-              setSeeding(false);
-            }
-          }}
-        >
-          {seeding ? <Loader2 className="animate-spin" /> : <Sprout />}
-          Seed demo data
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="destructive"
+            size="sm"
+            disabled={clearing || seeding}
+            onClick={handleClearAll}
+          >
+            {clearing ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+            Clear all data
+          </Button>
+          <Button
+            variant="default"
+            size="sm"
+            disabled={seeding || clearing}
+            onClick={handleSeed}
+          >
+            {seeding ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+            Seed popular brands
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

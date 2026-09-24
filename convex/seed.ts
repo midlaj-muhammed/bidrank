@@ -9,65 +9,294 @@ type SeedProduct = {
   category: string;
   founderName: string;
   websiteUrl: string;
+  logoUrl: string;
+  twitterUrl?: string;
+  demoUrl?: string;
   bidPaise: number;
   clicks: number;
 };
 
-const SEED: SeedProduct[] = [
-  { name: "Pulseboard", tagline: "Realtime analytics your team will actually open", description: "Pulseboard plugs into your product database and streams live dashboards, funnels, and alerts to Slack. No ETL pipelines, no stale screenshots — every chart updates the moment your data changes, with anomaly detection built in.", category: "Analytics", founderName: "Aarav Mehta", websiteUrl: "https://pulseboard.example.com", bidPaise: 1250000, clicks: 18420 },
-  { name: "Ghostwrite AI", tagline: "Your entire content pipeline on autopilot", description: "Ghostwrite AI researches, drafts, and schedules SEO briefs, blogs, and LinkedIn posts in your brand voice. Human-in-the-loop approvals, plagiarism checks, and one-click publishing to every major CMS.", category: "AI", founderName: "Sara Thomas", websiteUrl: "https://ghostwriteai.example.com", bidPaise: 810000, clicks: 15230 },
-  { name: "Shipfast CI", tagline: "Preview environments for every pull request", description: "Shipfast CI spins up isolated preview environments with seeded data for every PR. Comment-driven tear-down, cost caps per team, and first-class monorepo support keep velocity high and cloud bills low.", category: "Developer Tools", founderName: "Rohan Iyer", websiteUrl: "https://shipfastci.example.com", bidPaise: 525000, clicks: 12110 },
-  { name: "Calendlyzer", tagline: "Meetings that schedule themselves", description: "Calendlyzer negotiates meeting times across time zones over email, books rooms, and auto-generates agendas from your docs. It even declines conflicts politely on your behalf.", category: "Productivity", founderName: "Priya Nair", websiteUrl: "https://calendlyzer.example.com", bidPaise: 390000, clicks: 9840 },
-  { name: "AdOrbit", tagline: "Launch profitable ads in 10 minutes", description: "AdOrbit generates creatives, picks audiences, and reallocates budget across Meta and Google automatically. Kill losers fast, scale winners faster — with plain-English explanations for every move.", category: "Marketing", founderName: "Kabir Shah", websiteUrl: "https://adorbit.example.com", bidPaise: 210000, clicks: 8730 },
-  { name: "FigmaFlow", tagline: "Design-to-code without the handoff tax", description: "FigmaFlow converts Figma frames into clean, responsive React + Tailwind components with your design tokens baked in. Version diffs, Storybook export, and accessibility linting included.", category: "Design", founderName: "Ananya Rao", websiteUrl: "https://figmaflow.example.com", bidPaise: 150000, clicks: 7910 },
-  { name: "Ledgerly", tagline: "Bookkeeping founders don't dread", description: "Ledgerly categorizes transactions, chases invoices, and closes your monthly books with a single review screen. GST-ready reports and a CA hotline when you need a human.", category: "Finance", founderName: "Vikram Menon", websiteUrl: "https://ledgerly.example.com", bidPaise: 90000, clicks: 6420 },
-  { name: "Standupbot", tagline: "Async standups that take 60 seconds", description: "Standupbot collects updates in Slack, summarizes blockers with AI, and posts a digest before your coffee cools. Jira and Linear sync keeps tickets honest without nagging.", category: "Productivity", founderName: "Divya Krishnan", websiteUrl: "https://standupbot.example.com", bidPaise: 50000, clicks: 5210 },
-  { name: "PromptVault", tagline: "Version control for LLM prompts", description: "PromptVault tracks every prompt change, A/B tests variants in production, and rolls back bad generations like code. Eval dashboards show quality drift before users notice.", category: "AI", founderName: "Arjun Pillai", websiteUrl: "https://promptvault.example.com", bidPaise: 30000, clicks: 4380 },
-  { name: " salestack".trim(), tagline: "Pipeline reviews that run themselves", description: "Salestack scores every deal, flags stalled opportunities, and drafts follow-ups from call transcripts. Managers get a Monday briefing; reps get their evenings back.", category: "Sales", founderName: "Neha Gupta", websiteUrl: "https://salestack.example.com", bidPaise: 15000, clicks: 3150 },
-  { name: "Habitloop", tagline: "Tiny habits, streaks that stick", description: "Habitloop turns goals into 2-minute daily actions with smart reminders and streak insurance. Friends can cheer you on — or steal your streak crown.", category: "Consumer", founderName: "Aditya Verma", websiteUrl: "https://habitloop.example.com", bidPaise: 12000, clicks: 2870 },
-  { name: "Loglens", tagline: "Search terabytes of logs in milliseconds", description: "Loglens ingests structured logs at any scale and answers questions in plain English. One-click retention policies and usage-based pricing that won't ambush you.", category: "Developer Tools", founderName: "Karthik Nair", websiteUrl: "https://loglens.example.com", bidPaise: 8000, clicks: 2140 },
-  { name: "Brandkit", tagline: "Every asset on-brand, every time", description: "Brandkit locks logos, colors, and templates into a shared workspace with approval flows. Marketing ships faster; brand police can finally retire.", category: "Design", founderName: "Meera Joshi", websiteUrl: "https://brandkit.example.com", bidPaise: 5000, clicks: 1690 },
-  { name: "Churnguard", tagline: "Catch cancellations before they happen", description: "Churnguard scores at-risk accounts from usage signals and triggers save plays automatically — win-back offers, founder emails, or concierge calls at exactly the right moment.", category: "Sales", founderName: "Farhan Khan", websiteUrl: "https://churnguard.example.com", bidPaise: 2500, clicks: 1210 },
-  { name: "Notewise", tagline: "Meeting notes you'll actually revisit", description: "Notewise joins your calls, captures decisions and owners, and files everything searchable by project. Weekly recaps write themselves.", category: "Productivity", founderName: "Lakshmi Anand", websiteUrl: "https://notewise.example.com", bidPaise: 1000, clicks: 860 },
+export const POPULAR_BRANDS: SeedProduct[] = [
+  {
+    name: "OpenAI ChatGPT",
+    tagline: "The world's most capable AI conversational model",
+    description: "ChatGPT helps you brainstorm, write, learn, code, and automate complex tasks with advanced reasoning capabilities and custom GPTs.",
+    category: "AI",
+    founderName: "Sam Altman",
+    websiteUrl: "https://chatgpt.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=openai.com&sz=128",
+    twitterUrl: "https://x.com/OpenAI",
+    demoUrl: "https://chatgpt.com",
+    bidPaise: 1500000, // ₹15,000
+    clicks: 24800,
+  },
+  {
+    name: "Linear",
+    tagline: "The issue tracking tool you'll actually enjoy using",
+    description: "Linear is a purpose-built tool for planning and building products. Streamline issues, sprints, and product roadmaps with unmatched speed and keyboard navigation.",
+    category: "Productivity",
+    founderName: "Karri Saarinen",
+    websiteUrl: "https://linear.app",
+    logoUrl: "https://www.google.com/s2/favicons?domain=linear.app&sz=128",
+    twitterUrl: "https://x.com/linear",
+    demoUrl: "https://linear.app",
+    bidPaise: 1150000, // ₹11,500
+    clicks: 19450,
+  },
+  {
+    name: "Vercel",
+    tagline: "Build and deploy the modern web at global scale",
+    description: "Vercel's Frontend Cloud gives developers the collaborative tools and high-performance serverless infrastructure to build and deploy web applications instantly.",
+    category: "Developer Tools",
+    founderName: "Guillermo Rauch",
+    websiteUrl: "https://vercel.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=vercel.com&sz=128",
+    twitterUrl: "https://x.com/vercel",
+    demoUrl: "https://vercel.com",
+    bidPaise: 890000, // ₹8,900
+    clicks: 16320,
+  },
+  {
+    name: "Figma",
+    tagline: "How the world designs and builds digital products",
+    description: "Figma is the leading collaborative design platform where teams brainstorm, design, prototype, and build digital products in realtime in the browser.",
+    category: "Design",
+    founderName: "Dylan Field",
+    websiteUrl: "https://figma.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=figma.com&sz=128",
+    twitterUrl: "https://x.com/figma",
+    demoUrl: "https://figma.com",
+    bidPaise: 650000, // ₹6,500
+    clicks: 14200,
+  },
+  {
+    name: "Stripe",
+    tagline: "Financial infrastructure for the internet economy",
+    description: "Millions of companies of all sizes—from startups to Fortune 500s—use Stripe's software and APIs to accept payments, send payouts, and manage their businesses online.",
+    category: "Finance",
+    founderName: "Patrick Collison",
+    websiteUrl: "https://stripe.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=stripe.com&sz=128",
+    twitterUrl: "https://x.com/stripe",
+    demoUrl: "https://stripe.com",
+    bidPaise: 480000, // ₹4,800
+    clicks: 12800,
+  },
+  {
+    name: "Cursor",
+    tagline: "The AI-first code editor built for hyper-productive engineers",
+    description: "Cursor is an intelligent fork of VS Code powered by frontier AI models. Generate code diffs, edit multiple files at once, and chat with your entire codebase seamlessly.",
+    category: "Developer Tools",
+    founderName: "Michael Truell",
+    websiteUrl: "https://cursor.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=cursor.com&sz=128",
+    twitterUrl: "https://x.com/cursor_ai",
+    demoUrl: "https://cursor.com",
+    bidPaise: 375000, // ₹3,750
+    clicks: 11400,
+  },
+  {
+    name: "PostHog",
+    tagline: "The single platform for product analytics, session replay & flags",
+    description: "PostHog gives engineering and product teams everything needed to understand user behavior, capture feedback, run A/B experiments, and ship better products.",
+    category: "Analytics",
+    founderName: "James Hawkins",
+    websiteUrl: "https://posthog.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=posthog.com&sz=128",
+    twitterUrl: "https://x.com/PostHog",
+    demoUrl: "https://posthog.com",
+    bidPaise: 290000, // ₹2,900
+    clicks: 9750,
+  },
+  {
+    name: "Resend",
+    tagline: "Email for developers — modern, fast, and deliverable",
+    description: "Resend is the developer-first email platform that turns sending transactional emails into an art form with React Email templates, webhooks, and enterprise deliverability.",
+    category: "Marketing",
+    founderName: "Zeno Rocha",
+    websiteUrl: "https://resend.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=resend.com&sz=128",
+    twitterUrl: "https://x.com/resend",
+    demoUrl: "https://resend.com",
+    bidPaise: 210000, // ₹2,100
+    clicks: 8400,
+  },
+  {
+    name: "Supabase",
+    tagline: "The open source Firebase alternative with Postgres",
+    description: "Supabase provides all the backend features you need to build a product: Postgres database, Authentication, instant APIs, Edge Functions, Realtime subscriptions, and Storage.",
+    category: "Developer Tools",
+    founderName: "Paul Copplestone",
+    websiteUrl: "https://supabase.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=supabase.com&sz=128",
+    twitterUrl: "https://x.com/supabase",
+    demoUrl: "https://supabase.com",
+    bidPaise: 165000, // ₹1,650
+    clicks: 7120,
+  },
+  {
+    name: "Notion",
+    tagline: "The connected workspace where better, faster work happens",
+    description: "Notion is a single space where you can think, write, and plan. Capture thoughts, manage projects, or even run an entire company, exactly the way you want.",
+    category: "Productivity",
+    founderName: "Ivan Zhao",
+    websiteUrl: "https://notion.so",
+    logoUrl: "https://www.google.com/s2/favicons?domain=notion.so&sz=128",
+    twitterUrl: "https://x.com/NotionHQ",
+    demoUrl: "https://notion.so",
+    bidPaise: 120000, // ₹1,200
+    clicks: 6300,
+  },
+  {
+    name: "Perplexity AI",
+    tagline: "Where knowledge begins — AI powered conversational search",
+    description: "Perplexity provides cited answers to any question in seconds, combining web search with generative AI to make research instant and transparent.",
+    category: "AI",
+    founderName: "Aravind Srinivas",
+    websiteUrl: "https://perplexity.ai",
+    logoUrl: "https://www.google.com/s2/favicons?domain=perplexity.ai&sz=128",
+    twitterUrl: "https://x.com/perplexity_ai",
+    demoUrl: "https://perplexity.ai",
+    bidPaise: 85000, // ₹850
+    clicks: 5420,
+  },
+  {
+    name: "HubSpot",
+    tagline: "Customer platform that powers seamless inbound sales & CRM",
+    description: "HubSpot connects your data, teams, and customers on one customer platform that grows with your business from lead capture to deal close.",
+    category: "Sales",
+    founderName: "Dharmesh Shah",
+    websiteUrl: "https://hubspot.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=hubspot.com&sz=128",
+    twitterUrl: "https://x.com/HubSpot",
+    demoUrl: "https://hubspot.com",
+    bidPaise: 60000, // ₹600
+    clicks: 4890,
+  },
+  {
+    name: "Wise",
+    tagline: "Money for here, there, and everywhere",
+    description: "Wise is the international account for sending, spending, and receiving currencies at the real mid-market exchange rate without hidden fees.",
+    category: "Finance",
+    founderName: "Kristo Käärmann",
+    websiteUrl: "https://wise.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=wise.com&sz=128",
+    twitterUrl: "https://x.com/Wise",
+    demoUrl: "https://wise.com",
+    bidPaise: 45000, // ₹450
+    clicks: 3920,
+  },
+  {
+    name: "Loom",
+    tagline: "One video is worth a thousand words",
+    description: "Loom is the video messaging tool that helps you get your message across through instantly shareable videos of your screen, camera, and voice.",
+    category: "Productivity",
+    founderName: "Joe Thomas",
+    websiteUrl: "https://loom.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=loom.com&sz=128",
+    twitterUrl: "https://x.com/loom",
+    demoUrl: "https://loom.com",
+    bidPaise: 25000, // ₹250
+    clicks: 3100,
+  },
+  {
+    name: "Midjourney",
+    tagline: "Expanding human imagination through generative visuals",
+    description: "An independent research lab exploring new mediums of thought and expanding the imaginative powers of the human species through visual generative AI.",
+    category: "Consumer",
+    founderName: "David Holz",
+    websiteUrl: "https://midjourney.com",
+    logoUrl: "https://www.google.com/s2/favicons?domain=midjourney.com&sz=128",
+    twitterUrl: "https://x.com/midjourney",
+    demoUrl: "https://midjourney.com",
+    bidPaise: 10000, // ₹100
+    clicks: 2450,
+  },
 ];
 
-function avatar(name: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6366f1&color=fff&bold=true`;
-}
-
-/** Dev seed: realistic leaderboard. Admin only, skips existing slugs. */
-export const seed = mutation({
+/**
+ * Clear all database records (products, bids, payments, bidEvents, clicks).
+ * Callable from Admin Portal or CLI (`npx convex run seed:clearAll`).
+ */
+export const clearAll = mutation({
   args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Sign in first.");
-    const me = await ctx.db.get(userId);
-    if (!isAdminEmail(me?.email)) throw new Error("Admin only.");
+    if (userId) {
+      const me = await ctx.db.get(userId);
+      if (!isAdminEmail(me?.email)) throw new Error("Admin only.");
+    }
+
+    const [products, bids, payments, bidEvents, clicks] = await Promise.all([
+      ctx.db.query("products").collect(),
+      ctx.db.query("bids").collect(),
+      ctx.db.query("payments").collect(),
+      ctx.db.query("bidEvents").collect(),
+      ctx.db.query("clicks").collect(),
+    ]);
+
+    for (const p of products) await ctx.db.delete(p._id);
+    for (const b of bids) await ctx.db.delete(b._id);
+    for (const pay of payments) await ctx.db.delete(pay._id);
+    for (const be of bidEvents) await ctx.db.delete(be._id);
+    for (const c of clicks) await ctx.db.delete(c._id);
+
+    return {
+      deletedProducts: products.length,
+      deletedBids: bids.length,
+      deletedPayments: payments.length,
+      deletedEvents: bidEvents.length,
+      deletedClicks: clicks.length,
+    };
+  },
+});
+
+/** Seed popular, recognizable SaaS brands with real logos. */
+export const seed = mutation({
+  args: {},
+  handler: async (ctx) => {
+    let userId = await getAuthUserId(ctx);
+    if (userId) {
+      const me = await ctx.db.get(userId);
+      if (!isAdminEmail(me?.email)) throw new Error("Admin only.");
+    } else {
+      // CLI execution fallback: find first registered user or create system seed user
+      const firstUser = await ctx.db.query("users").first();
+      if (firstUser) {
+        userId = firstUser._id;
+      } else {
+        userId = await ctx.db.insert("users", {
+          name: "BidRank System",
+          email: "admin@bidrank.io",
+        });
+      }
+    }
 
     let created = 0;
     const now = Date.now();
-    for (let i = 0; i < SEED.length; i++) {
-      const s = SEED[i];
+    for (let i = 0; i < POPULAR_BRANDS.length; i++) {
+      const s = POPULAR_BRANDS[i];
       const slug = slugify(s.name);
       const existing = await ctx.db
         .query("products")
         .withIndex("by_slug", (q) => q.eq("slug", slug))
         .unique();
       if (existing) continue;
-      // Stagger timestamps so ties (none here) and "New" ordering look real.
-      const ts = now - (SEED.length - i) * 36 * 60 * 1000;
+
+      // Stagger timestamps across the past week so "Today" and "This Week" views look authentic
+      const ts = now - (POPULAR_BRANDS.length - i) * 6 * 60 * 60 * 1000;
       const id = await ctx.db.insert("products", {
-        userId,
+        userId: userId!,
         name: s.name,
         slug,
         websiteUrl: s.websiteUrl,
-        logoUrl: avatar(s.name),
+        logoUrl: s.logoUrl,
         tagline: s.tagline,
         description: s.description,
         category: s.category,
         founderName: s.founderName,
-        twitterUrl: undefined,
-        demoUrl: undefined,
+        twitterUrl: s.twitterUrl,
+        demoUrl: s.demoUrl,
         currentBid: s.bidPaise,
         lifetimeAmountPaid: s.bidPaise,
         clickCount: s.clicks,
@@ -76,8 +305,9 @@ export const seed = mutation({
         createdAt: ts,
         updatedAt: ts,
       });
+
       const paymentId = await ctx.db.insert("payments", {
-        userId,
+        userId: userId!,
         productId: id,
         provider: "razorpay",
         providerPaymentId: `seed_pay_${i + 1}`,
@@ -88,9 +318,10 @@ export const seed = mutation({
         type: "initial",
         createdAt: ts,
       });
+
       await ctx.db.insert("bids", {
         productId: id,
-        userId,
+        userId: userId!,
         previousBid: 0,
         newBid: s.bidPaise,
         amountPaid: s.bidPaise,
@@ -98,6 +329,7 @@ export const seed = mutation({
         status: "completed",
         createdAt: ts,
       });
+
       await ctx.db.insert("bidEvents", {
         productId: id,
         previousRank: undefined,
@@ -106,6 +338,7 @@ export const seed = mutation({
         newBid: s.bidPaise,
         createdAt: ts,
       });
+
       created += 1;
     }
     return { created };
