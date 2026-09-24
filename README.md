@@ -113,15 +113,15 @@ Open [http://localhost:3000](http://localhost:3000) to view the application loca
 1. Push this repository to GitHub.
 2. Import the repository into [Vercel](https://vercel.com).
 3. Under **Project Settings > Environment Variables**, add the following (choose **Config** type):
-   - `NEXT_PUBLIC_CONVEX_URL`: `https://quirky-husky-469.convex.cloud`
-   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: `rzp_test_TdB1YzOSx5FrKo`
+   - `NEXT_PUBLIC_CONVEX_URL`: `https://your-deployed-convex-url`
+   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: `razorpay-key-id`
 4. Deploy!
 
 ### Configure Razorpay Webhooks
 
 In your Razorpay Dashboard:
 1. Go to **Settings > Webhooks > Add New Webhook**.
-2. **Webhook URL**: `https://quirky-husky-469.convex.site/razorpay/webhook`
+2. **Webhook URL**: `https://your-deployed-convex-url/razorpay/webhook`
 3. **Secret**: Set the same secret stored in `RAZORPAY_WEBHOOK_SECRET`.
 4. **Active Events**:
    - `payment.captured`
