@@ -1,0 +1,273 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * BidRank × Wise design language.
+ * Raw brand tokens (`--wise-*`) are documented in design.md; the app tokens
+ * below alias them so `dark:` polarity flips cleanly.
+ */
+:root {
+  color-scheme: light;
+
+  /* Brand & accent */
+  --wise-primary: #9fe870;
+  --wise-primary-active: #cdffad;
+  --wise-primary-neutral: #c5edab;
+  --wise-primary-pale: #e2f6d5;
+
+  /* Surfaces */
+  --wise-canvas: #ffffff;
+  --wise-canvas-soft: #e8ebe6;
+
+  /* Text */
+  --wise-ink: #0e0f0c;
+  --wise-ink-deep: #163300;
+  --wise-body: #454745;
+  --wise-mute: #868685;
+
+  /* Semantic */
+  --wise-positive: #2ead4b;
+  --wise-positive-deep: #054d28;
+  --wise-warning: #ffd11a;
+  --wise-warning-deep: #b86700;
+  --wise-warning-content: #4a3b1c;
+  --wise-negative: #d03238;
+  --wise-negative-deep: #a72027;
+  --wise-negative-darkest: #a7000d;
+  --wise-negative-bg: #320707;
+
+  /* Tertiary illustration accents */
+  --wise-accent-orange: #ffc091;
+  --wise-accent-cyan: #38c8ff;
+
+  /* Radius scale */
+  --radius: 1.5rem; /* rounded.xl — 24px, the canonical card/button radius */
+
+  /* App token mapping (light) */
+  --background: var(--wise-canvas-soft);
+  --foreground: var(--wise-ink);
+  --card: var(--wise-canvas);
+  --card-foreground: var(--wise-ink);
+  --primary: var(--wise-primary);
+  --primary-foreground: var(--wise-ink-deep);
+  --primary-hover: var(--wise-primary-active);
+  --secondary: var(--wise-canvas-soft);
+  --secondary-foreground: var(--wise-ink);
+  --muted: #f2f4f0;
+  --muted-foreground: var(--wise-mute);
+  --body-foreground: var(--wise-body);
+  --accent: var(--wise-primary-pale);
+  --accent-foreground: var(--wise-ink-deep);
+  --success: var(--wise-positive);
+  --success-foreground: var(--wise-positive-deep);
+  --success-bg: var(--wise-primary-pale);
+  --warning: var(--wise-warning);
+  --warning-foreground: var(--wise-warning-content);
+  --destructive: var(--wise-negative);
+  --destructive-foreground: #ffffff;
+  --destructive-deep: var(--wise-negative-deep);
+  --destructive-darkest: var(--wise-negative-darkest);
+  --destructive-bg: var(--wise-negative-bg);
+  --border: #e2e5df;
+  --input: var(--wise-ink);
+  --ring: var(--wise-primary);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Polarity flip: dark ink surfaces, sage-tinted text, same green CTA. */
+  --background: #0e0f0c;
+  --foreground: #f5f7f4;
+  --card: #1a1c18;
+  --card-foreground: #f5f7f4;
+  --primary: var(--wise-primary);
+  --primary-foreground: var(--wise-ink-deep);
+  --primary-hover: var(--wise-primary-active);
+  --secondary: #262922;
+  --secondary-foreground: #f5f7f4;
+  --muted: #22251f;
+  --muted-foreground: #a9aca5;
+  --body-foreground: #c7cac3;
+  --accent: #2b3a20;
+  --accent-foreground: var(--wise-primary);
+  --success: #4cc964;
+  --success-foreground: #d3f5d8;
+  --success-bg: #22391f;
+  --warning: var(--wise-warning);
+  --warning-foreground: #ffe485;
+  --destructive: #e05258;
+  --destructive-foreground: #ffffff;
+  --destructive-deep: #b93e44;
+  --destructive-darkest: #ff9a9e;
+  --destructive-bg: #3d1113;
+  --border: #2a2e26;
+  --input: #d6d9d3;
+  --ring: var(--wise-primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-body: var(--body-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-bg: var(--success-bg);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-deep: var(--destructive-deep);
+  --color-destructive-darkest: var(--destructive-darkest);
+  --color-destructive-bg: var(--destructive-bg);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--foreground);
+  /* Theme-stable brand ink: the LogoMark chip must stay ink in both themes
+   * (bg-ink flips to near-white in dark mode and washes out the green bars). */
+  --color-brand-ink: var(--wise-ink);
+  --color-ink-deep: var(--wise-ink-deep);
+  /* Body copy follows the theme (dark: #c7cac3) — a static value would go
+   * dark-gray-on-dark under `.dark`. */
+  --color-ink-soft: var(--body-foreground);
+  --color-canvas-soft: var(--secondary);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "calt";
+}
+
+::selection {
+  background: var(--wise-primary);
+  color: var(--wise-ink-deep);
+}
+
+/* Wise display scale — set headlines in `font-display font-black`. */
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 1.2rem + 4.5vw, 4rem); /* 64px */
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-xxl {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3.5rem, 1.5rem + 6.5vw, 6rem); /* 96px */
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-mega {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 1.5rem + 9vw, 7.875rem); /* 126px */
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-md {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem); /* 40px */
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+@utility text-display-sm {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.625rem, 1.35rem + 1vw, 2rem); /* 32px */
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+@utility text-display-xs {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+/* Sub-display / section headings: Inter 600 per the two-face ladder. */
+@utility text-display-utility {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+/* Eyebrow / caption label: mono-caps. */
+@utility text-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-dialog-in {
+  animation: dialog-in 0.18s ease-out;
+}
+
+.animate-overlay-in {
+  animation: overlay-in 0.18s ease-out;
+}
+
+/*
+ * Reduced motion: stop decorative loops and entrance animations. Loading
+ * spinners (animate-spin) are essential status feedback and keep spinning.
+ * Declared after the .animate-* rules so these win on the same specificity.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .animate-dialog-in,
+  .animate-overlay-in,
+  .animate-ping,
+  .animate-pulse {
+    animation: none;
+  }
+}
