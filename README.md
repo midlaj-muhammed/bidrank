@@ -78,7 +78,7 @@ npx convex env set RAZORPAY_KEY_ID=rzp_test_your_key_id
 npx convex env set RAZORPAY_KEY_SECRET=your_key_secret
 npx convex env set RAZORPAY_WEBHOOK_SECRET=your_webhook_secret
 npx convex env set ADMIN_EMAILS=founder@yourdomain.com
-npx convex env set SITE_URL=https://bidrank-live.vercel.app
+npx convex env set SITE_URL=https://your-app-domain.com
 ```
 
 ### 4. Run Development Server
@@ -113,16 +113,16 @@ Open [http://localhost:3000](http://localhost:3000) to view the application loca
 1. Push this repository to GitHub.
 2. Import the repository into [Vercel](https://vercel.com).
 3. Under **Project Settings > Environment Variables**, add the following (choose **Config** type):
-   - `NEXT_PUBLIC_CONVEX_URL`: `https://quirky-husky-469.convex.cloud`
-   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: `rzp_test_TdB1YzOSx5FrKo`
-4. Under **Project Settings > Domains**, add your custom domain or preferred URL: `bidrank-live.vercel.app`.
+   - `NEXT_PUBLIC_CONVEX_URL`: `https://your-deployment-name.convex.cloud`
+   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: `rzp_test_your_key_id`
+4. Under **Project Settings > Domains**, add your custom domain or preferred URL.
 5. Deploy!
 
-### Configure Razorpay Webhooks
+### Configure Razorpay Webhooks (Optional Backup)
 
 In your Razorpay Dashboard:
 1. Go to **Settings > Webhooks > Add New Webhook**.
-2. **Webhook URL**: `https://quirky-husky-469.convex.site/razorpay/webhook`
+2. **Webhook URL**: `https://your-deployment-name.convex.site/razorpay/webhook`
 3. **Secret**: Set the same secret stored in `RAZORPAY_WEBHOOK_SECRET`.
 4. **Active Events**:
    - `payment.captured`
