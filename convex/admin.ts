@@ -70,22 +70,47 @@ export const allProducts = query({
   },
 });
 
-export const setStatus = mutation({
+export const getAwaitingAndPending = query({
+  args: {},
+  handler: async (ctx) => {
+    const products = await ctx.db
+      .query("products")
+      .withIndex("by_status_bid", (q) => q.eq("status", "awaiting_payment"))
+      .collect();
+    const payments = await ctx.db
+      .query("payments")
+      .order("desc")
+      .take(50);
+    return { products, payments };
+  },
+});
+
+export const manuallyActivateProduct = mutation({
   args: {
     productId: v.id("products"),
-    status: v.union(
-      v.literal("active"),
-      v.literal("suspended"),
-      v.literal("archived"),
-    ),
+    bidPaise: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    await requireAdmin(ctx);
     const product = await ctx.db.get(args.productId);
     if (!product) throw new Error("Product not found.");
+    const now = Date.now();
+    const bid = args.bidPaise ?? (product.currentBid > 0 ? product.currentBid : 1600000);
     await ctx.db.patch(args.productId, {
-      status: args.status,
-      updatedAt: Date.now(),
+      status: "active",
+      currentBid: bid,
+      lifetimeAmountPaid: product.lifetimeAmountPaid > 0 ? product.lifetimeAmountPaid : bid,
+      bidUpdatedAt: now,
+      updatedAt: now,
     });
+    const newRank = await rankForBid(ctx, bid, now);
+    await ctx.db.insert("bidEvents", {
+      productId: product._id,
+      previousRank: undefined,
+      newRank,
+      previousBid: 0,
+      newBid: bid,
+      createdAt: now,
+    });
+    return { success: true, rank: newRank };
   },
 });
