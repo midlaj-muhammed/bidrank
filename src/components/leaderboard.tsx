@@ -38,7 +38,7 @@ export function Leaderboard({
 
   const content = (
     <div className="space-y-4 min-w-0">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
         <Tabs<Tab>
           value={tab}
           onChange={setTab}
