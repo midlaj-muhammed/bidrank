@@ -1,6 +1,6 @@
 # BidRank ⚡ — Pay Your Way to the Top
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-bidrank--mu.vercel.app-9fe870?style=for-the-badge&logo=vercel&logoColor=0e0f0c)](https://bidrank-mu.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-bidrank--live.vercel.app-9fe870?style=for-the-badge&logo=vercel&logoColor=0e0f0c)](https://bidrank-live.vercel.app/)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Convex](https://img.shields.io/badge/Backend-Convex-orange?style=for-the-badge&logo=convex)](https://www.convex.dev/)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind-CSS%20v4-38bdf8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
@@ -9,7 +9,7 @@ A transparent, realtime pay-to-rank auction leaderboard for SaaS products and st
 
 Built with a **Wise-inspired design system** (lime-green `#9fe870` accent, brand ink `#0e0f0c`, soft sage canvas, and pill-shaped geometries).
 
-🔗 **Live Website**: [https://bidrank-mu.vercel.app](https://bidrank-mu.vercel.app/)
+🔗 **Live Website**: [https://bidrank-live.vercel.app](https://bidrank-live.vercel.app/)
 
 ---
 
@@ -78,7 +78,7 @@ npx convex env set RAZORPAY_KEY_ID=rzp_test_your_key_id
 npx convex env set RAZORPAY_KEY_SECRET=your_key_secret
 npx convex env set RAZORPAY_WEBHOOK_SECRET=your_webhook_secret
 npx convex env set ADMIN_EMAILS=founder@yourdomain.com
-npx convex env set SITE_URL=https://bidrank-mu.vercel.app
+npx convex env set SITE_URL=https://bidrank-live.vercel.app
 ```
 
 ### 4. Run Development Server
@@ -113,15 +113,16 @@ Open [http://localhost:3000](http://localhost:3000) to view the application loca
 1. Push this repository to GitHub.
 2. Import the repository into [Vercel](https://vercel.com).
 3. Under **Project Settings > Environment Variables**, add the following (choose **Config** type):
-   - `NEXT_PUBLIC_CONVEX_URL`: `https://your-deployed-convex-url`
-   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: `razorpay-key-id`
-4. Deploy!
+   - `NEXT_PUBLIC_CONVEX_URL`: `https://quirky-husky-469.convex.cloud`
+   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: `rzp_test_TdB1YzOSx5FrKo`
+4. Under **Project Settings > Domains**, add your custom domain or preferred URL: `bidrank-live.vercel.app`.
+5. Deploy!
 
 ### Configure Razorpay Webhooks
 
 In your Razorpay Dashboard:
 1. Go to **Settings > Webhooks > Add New Webhook**.
-2. **Webhook URL**: `https://your-deployed-convex-url/razorpay/webhook`
+2. **Webhook URL**: `https://quirky-husky-469.convex.site/razorpay/webhook`
 3. **Secret**: Set the same secret stored in `RAZORPAY_WEBHOOK_SECRET`.
 4. **Active Events**:
    - `payment.captured`
@@ -132,10 +133,10 @@ In your Razorpay Dashboard:
 
 ## 🌐 Live Demo
 
-Visit the deployed app at: **[https://bidrank-mu.vercel.app](https://bidrank-mu.vercel.app/)**
+Visit the deployed app at: **[https://bidrank-live.vercel.app](https://bidrank-live.vercel.app/)**
 
 ---
 
 ## 📄 License
 
-MIT © [BidRank](https://bidrank-mu.vercel.app)
+MIT © [BidRank](https://bidrank-live.vercel.app)
