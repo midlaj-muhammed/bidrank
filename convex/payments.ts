@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalMutation } from "./_generated/server";
+import { internalMutation, internalQuery } from "./_generated/server";
 import { rankForBid } from "./products";
 
 /**
@@ -49,9 +49,23 @@ export const createPending = internalMutation({
   },
 });
 
+export const getPendingByOrder = internalQuery({
+  args: {
+    providerOrderId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return ctx.db
+      .query("payments")
+      .withIndex("by_provider_order", (q) =>
+        q.eq("provider", "razorpay").eq("providerOrderId", args.providerOrderId),
+      )
+      .unique();
+  },
+});
+
 /**
  * Apply a verified provider payment. Idempotent on provider payment id:
- * calling twice (webhook retries) applies the bid exactly once.
+ * calling twice (webhook retries or client + webhook) applies the bid exactly once.
  */
 export const applyProviderPayment = internalMutation({
   args: {
@@ -78,7 +92,9 @@ export const applyProviderPayment = internalMutation({
       .unique();
     if (!payment) throw new Error("Unknown payment.");
 
-    if (payment.status === "completed") return { deduped: true as const };
+    if (payment.status === "completed") {
+      return { deduped: true as const, productId: payment.productId };
+    }
 
     if (payment.amount !== args.amount) {
       await ctx.db.patch(payment._id, { status: "failed" });

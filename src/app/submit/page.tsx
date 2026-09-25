@@ -78,6 +78,7 @@ export default function SubmitPage() {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const submit = useMutation(api.products.submit);
   const createOrder = useAction(api.razorpay.createOrder);
+  const verifyPayment = useAction(api.razorpay.verifyPayment);
 
   const [step, setStep] = useState<1 | 2>(1);
   const [form, setForm] = useState({
@@ -178,9 +179,25 @@ export default function SubmitPage() {
         description: `${form.name} opening bid`,
         order_id: order.orderId,
         theme: { color: "#0e0f0c" },
-        handler: () => {
-          setDone(true);
-          toast.success("Payment received! Your listing goes live automatically.");
+        handler: async (response: {
+          razorpay_payment_id: string;
+          razorpay_order_id: string;
+          razorpay_signature: string;
+        }) => {
+          try {
+            setBusy(true);
+            await verifyPayment({
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+            });
+            setDone(true);
+            toast.success("Payment verified! Your listing is now live on the leaderboard 🎉");
+          } catch (verifyErr) {
+            toast.error((verifyErr as Error).message || "Payment verification failed.");
+          } finally {
+            setBusy(false);
+          }
         },
         modal: { ondismiss: () => setBusy(false) },
       }).open();

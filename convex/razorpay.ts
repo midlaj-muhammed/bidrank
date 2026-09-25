@@ -24,8 +24,7 @@ type OrderResult = {
 /**
  * Razorpay order creation. Creates a Razorpay order for the DIFFERENCE
  * between the requested bid and the current bid, then records pending
- * bid + payment rows. The leaderboard only changes in the verified
- * webhook (see razorpayWebhook.ts).
+ * bid + payment rows.
  */
 export const createOrder = action({
   args: {
@@ -105,5 +104,68 @@ export const createOrder = action({
       currency: CURRENCY,
       productName: product.name,
     };
+  },
+});
+
+/**
+ * Direct client-side payment verification.
+ * Verifies the HMAC-SHA256 signature from the Razorpay checkout callback and immediately
+ * activates the product and applies the bid, guaranteeing 0-delay leaderboard updates.
+ */
+export const verifyPayment = action({
+  args: {
+    razorpayOrderId: v.string(),
+    razorpayPaymentId: v.string(),
+    razorpaySignature: v.string(),
+  },
+  handler: async (
+    ctx,
+    args,
+  ): Promise<{ success: boolean; productId: Id<"products"> }> => {
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    if (!keySecret) {
+      throw new Error("Razorpay secret not configured on deployment.");
+    }
+
+    // Verify HMAC-SHA256 signature of `${razorpayOrderId}|${razorpayPaymentId}`
+    const text = `${args.razorpayOrderId}|${args.razorpayPaymentId}`;
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      "raw",
+      enc.encode(keySecret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const mac = await crypto.subtle.sign("HMAC", key, enc.encode(text));
+    const expected = [...new Uint8Array(mac)]
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    if (expected !== args.razorpaySignature) {
+      throw new Error("Invalid payment signature. Payment verification failed.");
+    }
+
+    // Look up the pending payment record for this order
+    const payment: Doc<"payments"> | null = await ctx.runQuery(
+      internal.payments.getPendingByOrder,
+      {
+        providerOrderId: args.razorpayOrderId,
+      },
+    );
+    if (!payment) {
+      throw new Error("Payment record not found for this order.");
+    }
+
+    // Apply the payment to activate the product and raise rank
+    const result: { deduped: boolean; productId: Id<"products"> } =
+      await ctx.runMutation(internal.payments.applyProviderPayment, {
+        provider: "razorpay",
+        providerOrderId: args.razorpayOrderId,
+        providerPaymentId: args.razorpayPaymentId,
+        amount: payment.amount,
+      });
+
+    return { success: true, productId: result.productId };
   },
 });

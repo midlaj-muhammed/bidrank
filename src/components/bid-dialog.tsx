@@ -56,6 +56,7 @@ export function BidDialog({
   const [bidInput, setBidInput] = useState("");
   const [paying, setPaying] = useState(false);
   const createOrder = useAction(api.razorpay.createOrder);
+  const verifyPayment = useAction(api.razorpay.verifyPayment);
 
   const mine = useMemo(() => myProducts ?? [], [myProducts]);
   const eligible = useMemo(
@@ -102,9 +103,25 @@ export function BidDialog({
         description: `${selected.name} → ${formatBid(newBidPaise)}`,
         order_id: order.orderId,
         theme: { color: "#0e0f0c" },
-        handler: () => {
-          toast.success("Payment received! Your rank updates automatically.");
-          onClose();
+        handler: async (response: {
+          razorpay_payment_id: string;
+          razorpay_order_id: string;
+          razorpay_signature: string;
+        }) => {
+          try {
+            setPaying(true);
+            await verifyPayment({
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+            });
+            toast.success("Payment verified! Your rank has been updated 🎉");
+            onClose();
+          } catch (verifyErr) {
+            toast.error((verifyErr as Error).message || "Payment verification failed.");
+          } finally {
+            setPaying(false);
+          }
         },
         modal: { ondismiss: () => setPaying(false) },
       }).open();
