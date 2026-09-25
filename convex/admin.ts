@@ -70,6 +70,26 @@ export const allProducts = query({
   },
 });
 
+export const setStatus = mutation({
+  args: {
+    productId: v.id("products"),
+    status: v.union(
+      v.literal("active"),
+      v.literal("suspended"),
+      v.literal("archived"),
+    ),
+  },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const product = await ctx.db.get(args.productId);
+    if (!product) throw new Error("Product not found.");
+    await ctx.db.patch(args.productId, {
+      status: args.status,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
 export const getAwaitingAndPending = query({
   args: {},
   handler: async (ctx) => {
